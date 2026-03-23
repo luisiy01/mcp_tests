@@ -11,6 +11,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Cargar rutas
+const projectRoutes = require('./routes/project');
+
+app.use('/api/project', projectRoutes);
+
 app.get('/pruebitas', (req, res) => {
 
     console.log('se ha ejecutado mi enpoiont de prueba')
