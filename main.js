@@ -3,76 +3,38 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 // crear servidor
 const servidor = new McpServer({
-    name: "servidor-mcp-monedas",
+    name: "servidor-mcp-el-tiempo",
     version: "1.0.0"
 });
 // crear una herramienta para sacar el valor de una moneda
-servidor.registerTool('valor_monedas', {
-    title: 'Conseguir el valor de una moneda',
-    description: 'Recibe el nombre de una moneda y devuelve su valor',
+servidor.registerTool('el_tiempo_de_una_ciudad', {
+    title: 'Conseguir el clima actual de una ciudad',
+    description: 'Devuelve todos los datos del clima para la ciudad que queramos',
     inputSchema: {
-        moneda: z.string().min(1, "Debe ingresar una moneda, por ejemplo: EUR, USD")
+        city: z.string().min(2, "Indica una ciudad valida")
     }
-}, async ({ moneda }) => {
-    //https://cdn.moneyconvert.net/api/latest.json
-    if (typeof moneda !== 'string') {
-        throw new Error('La moneda debe ser una cadena de texto');
+}, async ({ city }) => {
+    const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1`;
+    const respuesta_geo = await fetch(geoUrl);
+    if (!respuesta_geo.ok) {
+        throw new Error(`Error al acceder a la geolocalizacion de la ciudad`);
     }
-    const url = `https://cdn.moneyconvert.net/api/latest.json`;
-    const respuesta = await fetch(url);
-    if (!respuesta.ok) {
-        throw new Error(`Error al acceder a la api`);
+    const datos_geo = await respuesta_geo.json();
+    if (!datos_geo.results || datos_geo.results.length === 0) {
+        throw new Error(`No se encontro la ciudad ${city}`);
     }
-    const datos = await respuesta.json();
-    const base = 'USD';
-    if (!datos.rates[moneda]) {
-        throw new Error(`No se encontro el valor de la moneda ${moneda}`);
+    const { latitude, longitude } = datos_geo.results[0];
+    const tiempoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation&current=temperature_2m,precipitation`;
+    const respuesta_tiempo = await fetch(tiempoUrl);
+    if (!respuesta_tiempo.ok) {
+        throw new Error(`Error al sacar el clima de la ciudad`);
     }
-    const value = datos.rates[moneda];
+    const datos_tiempo = await respuesta_tiempo.json();
     return {
         content: [
             {
                 type: 'text',
-                text: `El valor actual de la moneda ${moneda.toUpperCase()} es ${value} frente a ${base}`
-            }
-        ]
-    };
-});
-//crear herramienta para convertir una cifra al valor de otra moneda
-servidor.registerTool('convertir_tipo_cambio', {
-    title: 'Convertir una cifra al valor de otra moneda',
-    description: 'Devuleve el valor de una moneda frente a otra',
-    inputSchema: {
-        moneda_origen: z.string().min(3, "Debe ingresar una moneda, por ejemplo: EUR, USD"),
-        moneda_destino: z.string().min(3, "Debe ingresar una moneda, por ejemplo: EUR, USD"),
-        cantidad: z.number()
-    }
-}, async ({ moneda_origen, moneda_destino, cantidad }) => {
-    //https://cdn.moneyconvert.net/api/latest.json
-    const url = `https://cdn.moneyconvert.net/api/latest.json`;
-    const respuesta = await fetch(url);
-    if (!respuesta.ok) {
-        throw new Error(`Error al acceder a la api`);
-    }
-    const datos = await respuesta.json();
-    const { rates } = datos;
-    const base = 'USD';
-    if (!rates || !rates) {
-        throw new Error(`No se encontro el valor de la moneda`);
-    }
-    let rate;
-    if (moneda_origen === base) {
-        rate = rates[moneda_destino];
-    }
-    else {
-        rate = rates[moneda_destino] / rates[moneda_origen];
-    }
-    const value_converted = cantidad * rate;
-    return {
-        content: [
-            {
-                type: 'text',
-                text: `El ${cantidad} ${moneda_origen} es igual a ${value_converted} ${moneda_destino} (Tasa: ${rate.toFixed(6)}, Moneda Base: ${base})`
+                text: JSON.stringify(datos_tiempo, null, 2)
             }
         ]
     };

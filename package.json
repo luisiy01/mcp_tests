@@ -1,7 +1,7 @@
 {
-  "name": "calculadora-mcp",
+  "name": "tiempo-mcp",
   "version": "1.0.0",
-  "description": "MCP de conversion y visualizacion de valores de monedas",
+  "description": "MCP para consultar el tiempo de cualquier lugar",
   "homepage": "https://github.com/luisiy01/mcp_tests#readme",
   "bugs": {
     "url": "https://github.com/luisiy01/mcp_tests/issues"
