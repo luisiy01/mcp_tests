@@ -48,7 +48,7 @@ servidor.registerTool(
             content: [
                 {
                     type: 'text',
-                    text: `El valor actual de la moneda ${moneda.toUpperCase()} es ${value} frente a ${base}`
+                    text: `El valor actual de la moneda ${moneda.toUpperCase} es ${value} frente a ${base}`
                 }
             ]
         }
