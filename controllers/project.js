@@ -102,10 +102,18 @@ const updateProject = async (req, res) => {
     }
 }
 
+const upload = (req, res) => {
+    return res.status(200).send({
+        status: 'success',
+        message: 'metodo de subida'
+    })
+}
+
 module.exports = {
     saveProject,
     getProjects,
     getProject,
     deleteProject,
-    updateProject
+    updateProject,
+    upload
 };
