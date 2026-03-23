@@ -1,28 +1,31 @@
-# Primer MCP Server 🚀
+# Servidor MCP de Proyectos 🚀
 
-Este es un servidor MCP (Model Context Protocol) básico construido con TypeScript. El servidor expone herramientas y recursos que pueden ser utilizados por clientes compatibles con MCP para interactuar con la IA de manera estructurada a través de la interfaz estándar de entrada/salida (Stdio).
+Este es un servidor MCP (Model Context Protocol) construido con TypeScript para gestionar proyectos a través de un API REST. El servidor expone herramientas que pueden ser utilizadas por clientes compatibles con MCP para interactuar con la IA de manera estructurada a través de la interfaz estándar de entrada/salida (Stdio).
 
 ## 📦 Características
 
-El servidor (`servidor-mcp-luis` v1.0.0) provee las siguientes funcionalidades:
+El servidor (`servidor-mcp-proyectos` v1.0.0) provee las siguientes funcionalidades conectándose a un backend local en `http://localhost:3000/api/project`.
 
 ### 🛠️ Herramientas (Tools)
 
-- **`multiplicar`**: Multiplica dos números.
-  - Campos requeridos: `numero1` (number), `numero2` (number).
-  - Devuelve: El resultado de la multiplicación en formato de texto.
-
-### 📄 Recursos (Resources)
-
-- **`saludar://{nombre}`**: Un template de recurso dinámico para saludar.
-  - Parámetros: `{nombre}` de la persona a saludar.
-  - Devuelve: Un mensaje de texto con el formato `Hola, saludos terricola {nombre}`.
+- **`listar_proyectos`**: Devuelve la lista completa de proyectos.
+- **`obtener_proyecto`**: Devuelve los datos de un proyecto específico.
+  - Campos requeridos: `id` (string).
+- **`guardar_proyecto`**: Crea un nuevo proyecto.
+  - Campos requeridos: `name` (string), `description` (string), `state` (string).
+- **`actualizar_proyecto`**: Actualiza los datos de un proyecto por su ID.
+  - Campos requeridos: `id` (string).
+  - Campos opcionales: `name` (string), `description` (string), `state` (string).
+- **`eliminar_proyecto`**: Elimina un proyecto por su ID.
+  - Campos requeridos: `id` (string).
+- **`obtener_imagen_proyecto`**: Obtiene la imagen de un proyecto en formato base64 (retorna un tipo 'image' para MCP).
+  - Campos requeridos: `file` (string).
 
 ## 🚀 Instalación y Uso
 
-Asegúrate de tener instalado [Node.js](https://nodejs.org/) (versión recomendada 20 o superior).
+Asegúrate de tener instalado [Node.js](https://nodejs.org/) (versión recomendada 20 o superior) y que tu API en el puerto 3000 esté en ejecución.
 
-1. **Clona el repositorio** o entra en el directorio del proyecto:
+1. **Entra en el directorio del proyecto**:
    ```bash
    cd mcp_tests
    ```
@@ -46,21 +49,22 @@ Asegúrate de tener instalado [Node.js](https://nodejs.org/) (versión recomenda
 
 - [@modelcontextprotocol/sdk](https://www.npmjs.com/package/@modelcontextprotocol/sdk) - SDK Oficial de MCP
 - [Zod](https://zod.dev/) - Validación esquemática de datos
-- [TypeScript](https://www.typescriptlang.org/) - JavaScript tipado
+- [TypeScript](https://www.typescriptlang.org/) - tipado estático
+- Node.js (fetch nativo / sistema de archivos)
 
 ## 🔌 Configuración para Cliente MCP (ej. Claude Desktop)
 
-Para utilizar este servidor en un cliente MCP (como Claude para Desktop), añade la siguiente configuración a tu archivo JSON de configuración de servidores (por ejemplo, `claude_desktop_config.json`):
+Para utilizar este servidor con un cliente MCP (como Claude para Desktop), añade la siguiente configuración a tu archivo JSON de configuración de servidores (por ejemplo, `claude_desktop_config.json`):
 
 ```json
 {
   "mcpServers": {
-    "servidor-mcp-el-tiempo": {
+    "servidor-mcp-proyectos": {
       "command": "node",
       "args": [
-        "D:\\misproys\\mcp\\mcp_tests\\main.js"
+        "D:\\misproys\\mcp\\mcp_api\\mcp_tests\\main.js"
       ],
-      "cwd": "D:\\misproys\\mcp\\mcp_tests"
+      "cwd": "D:\\misproys\\mcp\\mcp_api\\mcp_tests"
     }
   }
 }
