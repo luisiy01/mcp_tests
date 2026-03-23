@@ -83,9 +83,29 @@ const deleteProject = async (req, res) => {
     }
 }
 
+const updateProject = async (req, res) => {
+    const id = req.params.id;
+    const body = req.body;
+
+    try {
+        const project = await Project.findByIdAndUpdate(id, body, { new: true });
+        return res.status(200).send({
+            status: 'success',
+            project
+        });
+    } catch (error) {
+        return res.status(500).send({
+            status: 'error',
+            message: 'Error al actualizar el proyecto',
+            error
+        });
+    }
+}
+
 module.exports = {
     saveProject,
     getProjects,
     getProject,
-    deleteProject
+    deleteProject,
+    updateProject
 };
