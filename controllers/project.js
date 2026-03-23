@@ -1,3 +1,6 @@
+const fs = require('fs')
+const path = require('path')
+
 const Project = require('../models/project');
 
 const saveProject = async (req, res) => {
@@ -102,11 +105,46 @@ const updateProject = async (req, res) => {
     }
 }
 
-const upload = (req, res) => {
-    return res.status(200).send({
-        status: 'success',
-        message: 'metodo de subida'
-    })
+const upload = async (req, res) => {
+
+    try {
+
+        let id = req.params.id;
+
+        if (!req.file) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'No se ha subido ningun archivo'
+            });
+        }
+
+        const filePath = req.file.path;
+        const extension = path.extname(req.file.originalname).toLocaleLowerCase().replace('.', '');
+
+        if (extension !== 'png' && extension !== 'jpg' && extension !== 'jpeg' && extension !== 'gif') {
+            fs.unlinkSync(filePath);
+
+            return res.status(400).send({
+                status: 'error',
+                message: 'La extension del archivo no es valida'
+            });
+        }
+
+        const project = await Project.findByIdAndUpdate({ _id: id }, { image: req.file.filename }, { new: true });
+        return res.status(200).send({
+            status: 'success',
+            project,
+            newFile: req.filename
+        });
+    } catch (error) {
+        fs.unlinkSync(filePath);
+        return res.status(500).send({
+            status: 'error',
+            message: 'Error al actualizar el proyecto',
+            error
+        });
+    }
+
 }
 
 module.exports = {
