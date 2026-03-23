@@ -47,3 +47,21 @@ Asegúrate de tener instalado [Node.js](https://nodejs.org/) (versión recomenda
 - [@modelcontextprotocol/sdk](https://www.npmjs.com/package/@modelcontextprotocol/sdk) - SDK Oficial de MCP
 - [Zod](https://zod.dev/) - Validación esquemática de datos
 - [TypeScript](https://www.typescriptlang.org/) - JavaScript tipado
+
+## 🔌 Configuración para Cliente MCP (ej. Claude Desktop)
+
+Para utilizar este servidor en un cliente MCP (como Claude para Desktop), añade la siguiente configuración a tu archivo JSON de configuración de servidores (por ejemplo, `claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "servidor-mcp-luis": {
+      "command": "node",
+      "args": [
+        "D:\\misproys\\mcp\\mcp_tests\\main.js"
+      ],
+      "cwd": "D:\\misproys\\mcp\\mcp_tests"
+    }
+  }
+}
+```
