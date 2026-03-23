@@ -55,7 +55,7 @@ Para utilizar este servidor en un cliente MCP (como Claude para Desktop), añade
 ```json
 {
   "mcpServers": {
-    "servidor-mcp-calculadora": {
+    "servidor-mcp-monedas": {
       "command": "node",
       "args": [
         "D:\\misproys\\mcp\\mcp_tests\\main.js"
