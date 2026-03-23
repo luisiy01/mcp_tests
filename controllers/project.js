@@ -31,6 +31,23 @@ const saveProject = async (req, res) => {
 
 }
 
+const getProjects = async (req, res) => {
+    try {
+        const projects = await Project.find();
+        return res.status(200).send({
+            status: 'success',
+            projects
+        });
+    } catch (error) {
+        return res.status(500).send({
+            status: 'error',
+            message: 'Error al obtener los proyectos',
+            error
+        });
+    }
+}
+
 module.exports = {
-    saveProject
+    saveProject,
+    getProjects
 };
