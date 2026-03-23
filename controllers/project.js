@@ -147,11 +147,30 @@ const upload = async (req, res) => {
 
 }
 
+const getImageFile = async (req, res) => {
+    const file = req.params.file;
+    const filePath = './uploads/images/' + file;
+
+    fs.stat(filePath, (err, exists) => {
+        if (err) {
+            return res.status(404).send({
+                status: 'error',
+                message: 'La imagen no existe'
+            });
+        }
+
+        return res.status(200).sendFile(path.resolve(filePath));
+    });
+
+
+}
+
 module.exports = {
     saveProject,
     getProjects,
     getProject,
     deleteProject,
     updateProject,
-    upload
+    upload,
+    getImageFile
 };
