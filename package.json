@@ -1,7 +1,7 @@
 {
-  "name": "tiempo-mcp",
+  "name": "api-rest",
   "version": "1.0.0",
-  "description": "MCP para consultar el tiempo de cualquier lugar",
+  "description": "API rest para probar MCP",
   "homepage": "https://github.com/luisiy01/mcp_tests#readme",
   "bugs": {
     "url": "https://github.com/luisiy01/mcp_tests/issues"
@@ -11,18 +11,10 @@
     "url": "git+https://github.com/luisiy01/mcp_tests.git"
   },
   "license": "MIT",
-  "author": "Luis Nunez",
-  "type": "module",
-  "main": "main.js",
+  "author": "Luis Nuñez",
+  "type": "commonjs",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.27.1",
-    "zod": "^4.3.6"
-  },
-  "devDependencies": {
-    "@types/node": "^25.5.0",
-    "typescript": "^5.9.3"
   }
 }
