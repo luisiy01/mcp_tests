@@ -1,7 +1,7 @@
 {
-  "name": "primer-mcp",
+  "name": "calculadora-mcp",
   "version": "1.0.0",
-  "description": "",
+  "description": "MCP para calculadora",
   "homepage": "https://github.com/luisiy01/mcp_tests#readme",
   "bugs": {
     "url": "https://github.com/luisiy01/mcp_tests/issues"
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/luisiy01/mcp_tests.git"
   },
   "license": "MIT",
-  "author": "",
+  "author": "Luis Nunez",
   "type": "module",
   "main": "main.js",
   "scripts": {
