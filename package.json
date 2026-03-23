@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.27.1",
+    "form-data": "^4.0.5",
     "zod": "^4.3.6"
   },
   "devDependencies": {
