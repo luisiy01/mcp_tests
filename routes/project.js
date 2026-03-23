@@ -5,6 +5,7 @@ const projectController = require('../controllers/project');
 
 router.post('/save', projectController.saveProject);
 router.get('/list', projectController.getProjects);
-router.get('/list/:id', projectController.getProject);
+router.get('/item/:id', projectController.getProject);
+router.delete('/delete/:id', projectController.deleteProject);
 
 module.exports = router;
